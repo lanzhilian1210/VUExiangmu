@@ -8,7 +8,6 @@
 </template>
 <style>
 .pageWapper{
-    display: table;
     height: 100%;
     width: 100%;
 }
