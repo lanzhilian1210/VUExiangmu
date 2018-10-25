@@ -1,72 +1,66 @@
 <template>
 <div class="pageWapper">
-    <div class="header-wrapper">
-        <div class="logo"></div>
-        <div class="logoText">文档转换真简单</div>
-        <div class="banner">
-            <div class="ban1">定价</div>
-            <div class="shu"></div>
-            <div class="ban2">登录</div>
-            <div class="register">注册</div>
-        </div>
+    <div>
+        姓名:<input type="text" v-model="name">
+    </div>
+    <div>
+        密码:<input type="text" v-model="password">
+    </div>
+    <div>
+        <button @click="handleReg">注册</button>
+        <button @click="handleSub">登入</button>
+        <button @click="handleStatus">状态</button>
     </div>
 </div>
 </template>
-<style>
-.pageWapper{
-    height: 100%;
-    width: 100%;
-    
-}
 
-.logo{
-    width: 160px;
-    height: 40px;
-    background:dodgerblue;
-    display: inline-block;
-    margin-left:30px;
-}
-.logoText{
-    height: 16px;
-    font:16px/16px "微软雅黑";
-    color: #333;
-    position: absolute;
-    left: 23.3333%;
-    top: 70px;
-}
-.banner{
-    width:284px;
-    height:52px;
-    float:right;
-    display:flex;
-    justify-content: flex-start;
-    margin-right:30px;
-}
-.ban1{
-    height:100%;
-    font:20px/52px "微软雅黑";
-    color:#333;
-}
-.shu{
-    height:48px;
-    width:1px;
-    background:#E0E0E0;
-    margin-left:36px;
-}
-.ban2{
-    height:100%;
-    font:20px/52px "微软雅黑";
-    color:#333;
-    margin-left:36px;
-}
-.register{
-    height:100%;
-    font:20px/52px "微软雅黑";
-    color:#fff;
-    margin-left:36px;
-    background:#0275D8;
-    width:84px;
-    text-align:center;
-    border-radius:10px;
-}
+<script>
+    import {authToken} from '../common/config.js';
+    export default{
+        data(){
+            return {
+                name:'123',
+                password:'123'
+            }   
+        },
+        methods:{
+                handleReg(){
+                    let params = {
+                        userName:this.name,
+                        password:this.password
+                    };
+                    this.$axios.post('/users/reg',params).then((res)=>{
+                        console.log(res);
+                    }).catch((err)=>{
+                        console.log(err);
+                    })
+                },
+               handleSub(){
+                   let params = {
+                        userName:this.name,
+                        password:this.password
+                    };
+                   this.$axios.post('/users/login',params).then((res)=>{
+                       window.sessionStorage.setItem('token',res.data.token)
+                   }).catch((err)=>{
+                       console.log(err);
+                   });
+               },
+               handleStatus() {
+                   console.log(authToken());
+                   this.$axios.get('/users/status',authToken()).then(res=>{
+                       console.log(res);
+                   }).catch(err=>{
+                       console.log(err);
+                   })
+               }
+            }
+    }
+</script>
+<style scoped>
+    div{
+        margin: 60px;
+    }
 </style>
+
+
