@@ -47,7 +47,6 @@
                    });
                },
                handleStatus() {
-                   console.log(authToken());
                    this.$axios.get('/users/status',authToken()).then(res=>{
                        console.log(res);
                    }).catch(err=>{
