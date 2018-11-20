@@ -5,8 +5,21 @@
 </template>
 
 <script>
+import {authToken} from './common/config.js';
 export default {
-  name: 'App'
+  name: 'App',
+  mounted(){
+  this.handleStatus();
+  },
+  methods: {
+    handleStatus() {
+                   this.$axios.get('/users/status',authToken()).then(res=>{
+                       console.log(res);
+                   }).catch(err=>{
+                       console.log(err);
+                   })
+               }
+  }
 }
 </script>
 
