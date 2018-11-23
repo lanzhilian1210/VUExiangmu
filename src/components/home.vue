@@ -9,7 +9,9 @@
     <div>
         <button @click="handleReg">注册</button>
         <button @click="handleSub">登入</button>
-        <button @click="handleStatus">状态</button>
+    </div>
+    <div v-show="consumer">
+        <p>{{consumer}}已登入</p>
     </div>
 </div>
 </template>
@@ -20,7 +22,8 @@
         data(){
             return {
                 name:'123',
-                password:'123'
+                password:'123',
+                consumer:''
             }   
         },
         methods:{
@@ -41,17 +44,11 @@
                         password:this.password
                     };
                    this.$axios.post('/users/login',params).then((res)=>{
+                       this.consumer = this.name;
                        window.sessionStorage.setItem('token',res.data.token)
                    }).catch((err)=>{
                        console.log(err);
                    });
-               },
-               handleStatus() {
-                   this.$axios.get('/users/status',authToken()).then(res=>{
-                       console.log(res);
-                   }).catch(err=>{
-                       console.log(err);
-                   })
                }
             }
     }

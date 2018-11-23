@@ -13,12 +13,13 @@ export default {
   },
   methods: {
     handleStatus() {
-                   this.$axios.get('/users/status',authToken()).then(res=>{
-                       console.log(res);
-                   }).catch(err=>{
-                       console.log(err);
-                   })
-               }
+        this.$axios.get('/users/status',authToken()).then(res=>{
+            // console.log(res);
+            // alert('请登入');
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
   }
 }
 </script>
