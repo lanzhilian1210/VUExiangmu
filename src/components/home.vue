@@ -26,18 +26,23 @@
                 consumer:''
             }   
         },
+        mounted() {
+            this.getSession()
+        },
         methods:{
+            // 注册
                 handleReg(){
                     let params = {
                         userName:this.name,
                         password:this.password
                     };
-                    this.$axios.post('/users/reg',params).then((res)=>{
+                    this.$axios.post('/newUser/signUp',params).then((res)=>{
                         console.log(res);
                     }).catch((err)=>{
                         console.log(err);
                     })
                 },
+                // 登入
                handleSub(){
                    let params = {
                         userName:this.name,
@@ -49,6 +54,13 @@
                    }).catch((err)=>{
                        console.log(err);
                    });
+               },
+               getSession() {
+                  this.$axios.get('/newUser/sess').then((res)=>{
+                      console.log(res)
+                   }).catch((err)=>{
+                       console.log(err);
+                   }); 
                }
             }
     }
