@@ -9,7 +9,7 @@ import {authToken} from './common/config.js';
 export default {
   name: 'App',
   mounted(){
-  this.handleStatus();
+  // this.handleStatus();
   },
   methods: {
     handleStatus() {

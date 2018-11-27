@@ -9,6 +9,7 @@
     <div>
         <button @click="handleReg">注册</button>
         <button @click="handleSub">登入</button>
+        <button @click="getSession">getSession</button>
     </div>
     <div v-show="consumer">
         <p>{{consumer}}已登入</p>
@@ -25,9 +26,6 @@
                 password:'123',
                 consumer:''
             }   
-        },
-        mounted() {
-            this.getSession()
         },
         methods:{
             // 注册
@@ -48,9 +46,9 @@
                         userName:this.name,
                         password:this.password
                     };
-                   this.$axios.post('/users/login',params).then((res)=>{
+                   this.$axios.post('/newUser/signIn',params).then((res)=>{
                        this.consumer = this.name;
-                       window.sessionStorage.setItem('token',res.data.token)
+                       console.log(document.cookie);
                    }).catch((err)=>{
                        console.log(err);
                    });
