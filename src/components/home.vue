@@ -9,7 +9,6 @@
     <div>
         <button @click="handleReg">注册</button>
         <button @click="handleSub">登入</button>
-        <button @click="getSession">getSession</button>
     </div>
     <div v-show="consumer">
         <p>{{consumer}}已登入</p>
@@ -22,8 +21,8 @@
     export default{
         data(){
             return {
-                name:'123',
-                password:'123',
+                name:'小米',
+                password:'123456',
                 consumer:''
             }   
         },
@@ -34,8 +33,13 @@
                         userName:this.name,
                         password:this.password
                     };
-                    this.$axios.post('/newUser/signUp',params).then((res)=>{
-                        console.log(res);
+                    this.$axios.post('/users/reg',params).then((res)=>{
+                        if(res.data.code == '500') {
+                            alert('已经被注册');
+                        }
+                        if(res.data.code == '200') {
+                            alert('注册成功');
+                        }
                     }).catch((err)=>{
                         console.log(err);
                     })
@@ -46,19 +50,24 @@
                         userName:this.name,
                         password:this.password
                     };
-                   this.$axios.post('/newUser/signIn',params).then((res)=>{
+                   this.$axios.post('/users/login',params).then((res)=>{
                        this.consumer = this.name;
-                       console.log(document.cookie);
+                       if(res.data.code == '500') {
+                           alert('账户不存在,请注册')
+                           return ;
+                       }
+                       if(res.data.message) {
+                           sessionStorage.setItem('token',res.data.token);
+                           sessionStorage.setItem('objId',res.data.objId);
+                            this.$router.push('./newList');
+                       }
+                       if(res.data.code == '200'& !res.data.message){
+                           alert('密码错误')
+                       }
+                         
                    }).catch((err)=>{
                        console.log(err);
                    });
-               },
-               getSession() {
-                  this.$axios.get('/newUser/sess').then((res)=>{
-                      console.log(res)
-                   }).catch((err)=>{
-                       console.log(err);
-                   }); 
                }
             }
     }
